@@ -14,10 +14,30 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-package xyz.cutipro.bookmarkorganizer
+package xyz.cutipro.bookmarkorganizer;
 
-@kotlinx.serialization.Serializable
-data class TagObj(var _id:Int, var name: String, var isSelected: Boolean = false, var isChecked: Boolean = false) {
+public class EscapedChars {
+    private String code;
 
+    private String entityName;
+    private String character;
+
+    public EscapedChars(String code, String entityName, String character) {
+        this.code = code;
+        this.entityName = entityName;
+        this.character = character;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public String getCharacter() {
+        return character;
+    }
 
 }

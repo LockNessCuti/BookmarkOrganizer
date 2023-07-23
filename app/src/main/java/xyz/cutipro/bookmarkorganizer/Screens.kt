@@ -16,8 +16,11 @@ limitations under the License.
 
 package xyz.cutipro.bookmarkorganizer
 
-@kotlinx.serialization.Serializable
-data class TagObj(var _id:Int, var name: String, var isSelected: Boolean = false, var isChecked: Boolean = false) {
-
-
+sealed class Screens(val route:String) {
+    object FolderListViewScreen: Screens(route = "folder_list_view_screen")
+    object AddFolderScreen: Screens(route = "add_folder_screen")
+    object FolderContentScreen: Screens(route = "folder_content_screen")
+    object DelTagScreen: Screens(route = "del_tag_screen")
+    object AddBookmarkScreen: Screens(route = "add_bookmark_screen")
+    object SettingsScreen: Screens(route = "settings_screen")
 }

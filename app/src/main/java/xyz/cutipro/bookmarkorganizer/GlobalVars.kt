@@ -16,8 +16,12 @@ limitations under the License.
 
 package xyz.cutipro.bookmarkorganizer
 
-@kotlinx.serialization.Serializable
-data class TagObj(var _id:Int, var name: String, var isSelected: Boolean = false, var isChecked: Boolean = false) {
-
-
+class GlobalVars {
+    companion object {
+        var isParsingTitle = false
+        var prevWrittenContentChanged = false
+        var needDataWrite = false
+        var sentUrl:String? = null
+        var viewSettings = false
+    }
 }
