@@ -142,13 +142,17 @@ class BmoViewModel: ViewModel() {
 
     fun setBookmarkToEdit(int: Int) {
 
-        if (int ==1) {
+        if (int == 1) {
             bookmarkToEdit = 0
         } else {
             bookmarkToEdit = int - 1
         }
 
 
+    }
+
+    fun resetBookmarkToEdit() {
+        bookmarkToEdit = -1
     }
 
     fun saveData(context: Context) {

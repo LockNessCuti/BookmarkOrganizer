@@ -27,13 +27,11 @@ data class FolderObj(var _id: Int, var name: String, var isPrivate: Boolean, var
 
         if (tagObj != null) {
             for (bookmark in bookmarks) {
-
-                for (tag in tags) {
-                    if (bookmark.tags.contains(tagObj)) {
+                for (tag in bookmark.tags) {
+                    if (tag._id == tagObj._id) {
                         filteredList.add(bookmark)
                     }
                 }
-
             }
 
             return filteredList
@@ -81,13 +79,24 @@ data class FolderObj(var _id: Int, var name: String, var isPrivate: Boolean, var
 
     fun EditBookmark(bookmarkObj: BookmarkObj) {
 
-        if (bookmarks.size > 0) {
-            bookmarks.remove(bookmarkObj)
-        } else {
-            bookmarks.clear()
-        }
+        bookmarks[bookmarkObj._id].title = bookmarkObj.title
+        bookmarks[bookmarkObj._id].url = bookmarkObj.url
+        bookmarks[bookmarkObj._id].note = bookmarkObj.note
+        bookmarks[bookmarkObj._id].tags = bookmarkObj.tags
 
-        bookmarks.add(bookmarkObj._id - 1, bookmarkObj)
+
+
+
+//        if (bookmarks.size > 0) {
+//            bookmarks.remove(bookmarkObj)
+//            bookmarks.add(bookmarkObj._id, bookmarkObj)
+//            bookmarks.
+//        } else {
+//            bookmarks.clear()
+//            bookmarks.add(bookmarkObj._id, bookmarkObj)
+//        }
+
+
 //        GlobalVars.prevWrittenContentChanged = true
         GlobalVars.needDataWrite = true
 

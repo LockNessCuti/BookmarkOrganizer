@@ -70,6 +70,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -87,6 +88,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -543,7 +545,7 @@ class MainActivity : ComponentActivity() {
             }
 
             var isFirstIndex by remember {
-            mutableStateOf(false)
+                mutableStateOf(false)
             }
 
             if (bmoViewModel.getFldrToView() == 0 || bmoViewModel.getFldrToView() == 1) {
@@ -691,7 +693,7 @@ class MainActivity : ComponentActivity() {
                                         .padding(8.dp)
                                 ) {
 
-                                        Text(text = if (selectedTag == -1) {stringResource(id = R.string.filter)} else {fldrObj.tags[selectedTag].name})
+                                        Text(text = if (selectedTag == -1) {stringResource(id = R.string.filter)} else { if (selectedTag > 0) {fldrObj.tags[selectedTag - 1].name} else {fldrObj.tags[selectedTag].name}})
 
                                 }
                             }
@@ -704,16 +706,30 @@ class MainActivity : ComponentActivity() {
 
 
                             if (selectedTag != -1) {
-                                items(fldrObj.filterBookmarksbyTag(fldrObj.tags[selectedTag - 1]).size) { bmObj ->
+                                items(fldrObj.bookmarks.size) { bmObj ->
 
-                                    BookmarkItem(fldrObj = fldrObj, _id = bmObj, navCon = navCon)
+                                    if (fldrObj.bookmarks[bmObj].tags.contains(fldrObj.tags[if (selectedTag == 0) {selectedTag} else {selectedTag -1}])) {
+
+                                        BookmarkItem(fldrObj = fldrObj, _id = bmObj, navCon = navCon)
+
+
+                                    }
                                 }
-                            }else {
-                                items(fldrObj.filterBookmarksbyTag(null).size) { bmObj ->
+                            } else {
+                                items(fldrObj.bookmarks.size) { bmObj ->
 
-                                    BookmarkItem(fldrObj = fldrObj, _id = bmObj, navCon = navCon)
+                                        BookmarkItem(fldrObj = fldrObj, _id = bmObj, navCon = navCon)
+
                                 }
                             }
+
+
+
+//                                items(fldrObj.filterBookmarksbyTag(null).size) { bmObj ->
+//
+//                                    BookmarkItem(fldrObj = fldrObj, _id = bmObj, navCon = navCon)
+//                                }
+
 
                         }
 
@@ -744,7 +760,7 @@ class MainActivity : ComponentActivity() {
                                         modifier = Modifier
                                             .fillMaxWidth()
                                             .padding(8.dp),
-                                        onClick = {selectedTag = fldrObj.tags[tag]._id; selectingFilter = false}
+                                        onClick = {selectedTag = fldrObj.tags[tag]._id; selectingFilter = false }
                                     ) {
                                         Text(text = fldrObj.tags[tag].name)
                                     }
